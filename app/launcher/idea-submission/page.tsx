@@ -14,7 +14,7 @@ export default function IdeaSubmissionPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-white text-gray-900 px-6">
+    <>
       <LauncherSectionHeader
         title="당신의 아이디어를 공유하세요!"
         description="빠르게 시장 반응을 확인하고, 관심 있는 사용자들의 이메일을 확보하세요."
@@ -22,7 +22,7 @@ export default function IdeaSubmissionPage() {
 
       {/* 입력 폼 */}
       {!submitted ? (
-        <form className="w-full max-w-2xl bg-zinc-100 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+        <form className="w-full bg-zinc-100 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium">💡 아이디어 제목</label>
             <Input
@@ -67,6 +67,6 @@ export default function IdeaSubmissionPage() {
           <Button className="mt-3 bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg">공유하기</Button>
         </div>
       )}
-    </div>
+    </>
   );
 }
