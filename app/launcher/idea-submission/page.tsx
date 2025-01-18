@@ -15,7 +15,10 @@ export default function IdeaSubmissionPage() {
       />
 
       {!submitted ? (
-        <IdeaForm onSubmit={() => setSubmitted(true)} />
+        <IdeaForm
+          onSubmit={() => setSubmitted(true)}
+          defaultValues={{ title: "", description: "", emailText: "", website: "" }}
+        />
       ) : (
         <div className="w-full max-w-2xl text-center mt-6">
           <h2 className="text-2xl font-bold text-green-600">

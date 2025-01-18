@@ -15,15 +15,10 @@ const ideaSchema = z.object({
 
 type IdeaFormValues = z.infer<typeof ideaSchema>;
 
-export default function IdeaForm({ onSubmit }: { onSubmit: () => void }) {
+export default function IdeaForm({ onSubmit, defaultValues }: { onSubmit: () => void; defaultValues: IdeaFormValues }) {
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      emailText: "",
-      website: "",
-    },
+    defaultValues,
   });
 
   const handleSubmit = (values: z.infer<typeof ideaSchema>) => {
