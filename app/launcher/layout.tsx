@@ -9,7 +9,7 @@ export default function LauncherLayout({ children }: { children: React.ReactNode
       {/*TODO: 로그아웃 로직 추가 */}
       <LauncherSidebar />
 
-      <main className="flex-1 p-6 md:p-10">{children}</main>
+      <main className="flex-1 w-full px-6 md:px-10 max-h-screen overflow-y-auto">{children}</main>
     </div>
   );
 }

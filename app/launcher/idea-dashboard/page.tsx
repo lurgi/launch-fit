@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Chart from "@/components/common/Chart";
+import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
 
 export default function IdeaDashboardPage() {
   const [registrations] = useState(128);
@@ -20,12 +21,10 @@ export default function IdeaDashboardPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white text-gray-900 px-6">
-      <section className="w-full max-w-3xl text-center py-12">
-        <h1 className="text-3xl font-bold sm:text-4xl">📊 관리자 대시보드</h1>
-        <p className="mt-4 text-lg text-gray-600">
-          이메일 등록 수 및 방문자 데이터를 확인하고 아이디어 정보를 수정하세요.
-        </p>
-      </section>
+      <LauncherSectionHeader
+        title="📊 관리자 대시보드"
+        description="이메일 등록 수 및 방문자 데이터를 확인하고 아이디어 정보를 수정하세요."
+      />
 
       {/* 탭 네비게이션 */}
       <Tabs defaultValue="overview" className="w-full max-w-3xl h-4/5">

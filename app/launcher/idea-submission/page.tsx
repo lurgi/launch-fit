@@ -1,4 +1,5 @@
 "use client";
+import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -13,14 +14,11 @@ export default function IdeaSubmissionPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-900 px-6">
-      {/* 아이디어 입력 섹션 */}
-      <section className="w-full max-w-2xl text-center py-12">
-        <h1 className="text-3xl font-bold sm:text-4xl">당신의 아이디어를 공유하세요!</h1>
-        <p className="mt-4 text-lg text-gray-600">
-          빠르게 시장 반응을 확인하고, 관심 있는 사용자들의 이메일을 확보하세요.
-        </p>
-      </section>
+    <div className="min-h-screen flex flex-col items-center bg-white text-gray-900 px-6">
+      <LauncherSectionHeader
+        title="당신의 아이디어를 공유하세요!"
+        description="빠르게 시장 반응을 확인하고, 관심 있는 사용자들의 이메일을 확보하세요."
+      />
 
       {/* 입력 폼 */}
       {!submitted ? (
