@@ -23,7 +23,6 @@ export default function IdeaDashboardPage() {
 
   return (
     <>
-      {" "}
       <LauncherSectionHeader
         title={`📊 ${title} 대시보드`}
         description="이메일 등록 수 및 방문자 데이터를 확인하고 아이디어 정보를 수정하세요."

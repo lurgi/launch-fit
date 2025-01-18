@@ -1,10 +1,10 @@
 "use client";
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from "date-fns";
 import Link from "next/link";
-import { FiPlusCircle } from "react-icons/fi";
+import { FiPlusCircle, FiArrowRight } from "react-icons/fi";
 import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
 
 interface Idea {
@@ -27,50 +27,44 @@ export default function IdeasPage() {
         description="이메일 등록 수 및 방문자 데이터를 확인하고 아이디어 정보를 수정하세요."
       />
 
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>내 아이디어 목록</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-3/4">제목</TableHead>
-                <TableHead className="w-1/4">등록 날짜</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {ideas.length > 0 ? (
-                ideas.map((idea) => (
-                  <TableRow key={idea.id} className="hover:bg-blue-100">
-                    <TableCell>
-                      <Link
-                        href={`/launcher/idea-dashboard/${idea.id}`}
-                        className="w-full hover:underline inline-block"
-                      >
-                        {idea.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{format(idea.createdAt, "yyyy-MM-dd")}</TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={3} className="text-center text-gray-500">
-                    <Link href="/launcher/idea-submission">
-                      <div className="flex flex-col items-center p-2 text-lg font-semibold">
-                        <FiPlusCircle size={32} />
-                        <span className="text-gray-500">등록된 아이디어가 없습니다.</span>
-                        <span className="text-gray-500">새 아이디어 등록하기</span>
+      <div className="w-full space-y-4">
+        <Card className="border-none shadow-none w-full">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">내 아이디어 목록</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {ideas.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+                {ideas.map((idea) => (
+                  <Link
+                    key={idea.id}
+                    href={`/launcher/idea-dashboard/${idea.id}`}
+                    className="block p-4 bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition-all"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">{idea.title}</h3>
+                        <p className="text-sm text-gray-500">{format(idea.createdAt, "yyyy-MM-dd")}</p>
                       </div>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                      <FiArrowRight className="text-gray-500" size={20} />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center text-center py-10">
+                <FiPlusCircle size={48} className="text-gray-400" />
+                <p className="mt-2 text-gray-500 text-lg font-semibold">등록된 아이디어가 없습니다.</p>
+                <Link href="/launcher/idea-submission">
+                  <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md">
+                    새 아이디어 등록하기
+                  </button>
+                </Link>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </>
   );
 }
