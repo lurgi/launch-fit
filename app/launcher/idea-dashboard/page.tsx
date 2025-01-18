@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Chart from "@/components/common/Chart";
 
-export default function AdminDashboard() {
+export default function IdeaDashboardPage() {
   const [registrations] = useState(128);
   const [visitors] = useState(540);
   const conversionRate = ((registrations / visitors) * 100).toFixed(2);
