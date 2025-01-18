@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
           <h2 className="text-2xl font-semibold mt-6">4. 개인정보 제공 및 공유</h2>
           <p className="mb-4">- 사용자의 개인정보는 제3자에게 제공되지 않습니다.</p>
           <h2 className="text-2xl font-semibold mt-6">5. 개인정보 보호책임자</h2>
-          <p>서비스 운영과 관련된 개인정보 보호 문의는 [이메일 주소]로 가능합니다.</p>
+          <p>서비스 운영과 관련된 개인정보 보호 문의는 lurgi9710@gmail.com로 가능합니다.</p>
         </div>
       </div>
     </>
