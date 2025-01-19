@@ -1,10 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import useSWRMutation from "swr/mutation";
+import { useToast } from "@/hooks/use-toast";
 
 const ideaSchema = z.object({
   title: z.string().min(3, "아이디어 제목을 입력하세요."),
@@ -15,15 +17,44 @@ const ideaSchema = z.object({
 
 type IdeaFormValues = z.infer<typeof ideaSchema>;
 
-export default function IdeaForm({ onSubmit, defaultValues }: { onSubmit: () => void; defaultValues: IdeaFormValues }) {
+async function fetcher(url: string, { arg }: { arg: IdeaFormValues }) {
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  }).then((res) => res.json());
+}
+
+interface IdeaFormProps {
+  onSubmit?: (data: { ideaId: string }) => void;
+  defaultValues: IdeaFormValues;
+}
+
+export default function IdeaForm({ onSubmit, defaultValues }: IdeaFormProps) {
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
     defaultValues,
   });
 
-  const handleSubmit = (values: z.infer<typeof ideaSchema>) => {
-    console.log(values);
-    onSubmit();
+  const { trigger, isMutating } = useSWRMutation<
+    { isError: boolean; message: string; ideaId?: string },
+    Error,
+    string,
+    IdeaFormValues
+  >("/api/idea/create", fetcher);
+
+  const { toast } = useToast();
+
+  const handleSubmit = async (values: z.infer<typeof ideaSchema>) => {
+    const { isError, message, ideaId } = await trigger(values);
+    if (isError) {
+      toast({
+        title: "아이디어 생성 실패",
+        description: message,
+        variant: "destructive",
+      });
+    } else {
+      onSubmit?.({ ideaId: ideaId! });
+    }
   };
 
   return (
@@ -39,6 +70,7 @@ export default function IdeaForm({ onSubmit, defaultValues }: { onSubmit: () => 
               <FormControl>
                 <Input {...field} placeholder="예: 혁신적인 노트 앱" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -53,6 +85,7 @@ export default function IdeaForm({ onSubmit, defaultValues }: { onSubmit: () => 
               <FormControl>
                 <Textarea {...field} placeholder="간단한 설명을 입력하세요" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -67,6 +100,7 @@ export default function IdeaForm({ onSubmit, defaultValues }: { onSubmit: () => 
               <FormControl>
                 <Input {...field} placeholder="예: 관심이 있으시면 이메일을 입력하세요!" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -81,12 +115,17 @@ export default function IdeaForm({ onSubmit, defaultValues }: { onSubmit: () => 
               <FormControl>
                 <Input {...field} placeholder="예: https://myproject.com" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
 
         {/* 제출 버튼 */}
-        <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md ">
+        <Button
+          type="submit"
+          disabled={isMutating}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md "
+        >
           관심 등록 페이지 만들기
         </Button>
       </form>

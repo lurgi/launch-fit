@@ -12,13 +12,17 @@ datasource db {
   provider = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-
 }
 
 model Idea {
   id         String              @id @default(uuid())
   createdAt  DateTime            @default(now())
   userId     String              
+  
+  title      String
+  description String
+  emailText   String
+  website     String
   
   stats      IdeaStats[]         
   emails     EmailRecord[]       
