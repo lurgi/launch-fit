@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiBarChart, FiPlusCircle, FiMenu } from "react-icons/fi";
+import { FiBarChart, FiPlusCircle, FiMenu, FiLogOut } from "react-icons/fi";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { createBrowserClient } from "@/lib/supabase/browserClient";
+import { useRouter } from "next/navigation";
 
 export default function LauncherSidebar() {
   const pathname = usePathname();
@@ -34,7 +36,7 @@ export default function LauncherSidebar() {
       </Sheet>
 
       {/* 데스크탑 사이드바 */}
-      <aside className="hidden md:flex flex-col w-60 h-screen bg-white border-r border-gray-200 shadow-md p-4">
+      <aside className="relative hidden md:flex flex-col w-60 h-screen bg-white border-r border-gray-200 shadow-md p-4">
         <SidebarContent pathname={pathname} />
       </aside>
     </div>
@@ -66,6 +68,23 @@ function SidebarContent({ pathname }: { pathname: string }) {
           </Link>
         ))}
       </nav>
+      <SignOutButton />
     </>
+  );
+}
+
+function SignOutButton() {
+  const supabase = createBrowserClient();
+  const router = useRouter();
+
+  const handleClick = async () => {
+    await supabase.auth.signOut();
+    router.push("/auth/signin");
+  };
+  return (
+    <Button variant="outline" className="w-52 absolute bottom-4" onClick={handleClick}>
+      <FiLogOut size={18} />
+      <span>로그아웃</span>
+    </Button>
   );
 }
