@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { createBrowserClient } from "@/lib/supabase/createClient";
+import { createBrowserClient } from "@/lib/supabase/browserClient";
+
 import Image from "next/image";
 
 export default function KakaoAuthButton() {
@@ -19,13 +20,11 @@ export default function KakaoAuthButton() {
 }
 
 async function signInWithKakao() {
-  const supabase = await createBrowserClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const supabase = createBrowserClient();
+  await supabase.auth.signInWithOAuth({
     provider: "kakao",
     options: {
       redirectTo: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/auth/callback`,
     },
   });
-
-  console.log(data, error);
 }
