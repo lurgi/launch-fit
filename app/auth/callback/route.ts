@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const headers = new Headers();
 
   if (code) {
-    const supabase = await createServerClient({ request, headers });
+    const supabase = createServerClient({ request, headers });
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {

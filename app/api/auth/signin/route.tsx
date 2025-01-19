@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   const response = NextResponse.json(url, { status: 302 });
   const headers = response.headers;
-  const supabase = await createServerClient({ request, headers });
+  const supabase = createServerClient({ request, headers });
 
   const { error } = await supabase.auth.signInWithPassword({
     email,

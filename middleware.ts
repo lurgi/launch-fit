@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "./lib/supabase/serverClient";
 
 async function redirectToDashboardIfLoggedIn(request: NextRequest) {
-  const supabase = await createServerClient({ request });
+  const supabase = createServerClient({ request });
 
   const {
     data: { user },
@@ -18,7 +18,7 @@ async function redirectToDashboardIfLoggedIn(request: NextRequest) {
 }
 
 async function redirectToSigninIfNotLoggedIn(request: NextRequest) {
-  const supabase = await createServerClient({ request });
+  const supabase = createServerClient({ request });
 
   const {
     data: { user },

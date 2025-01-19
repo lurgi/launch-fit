@@ -7,7 +7,7 @@ export interface SupabaseServerArgs {
   headers?: Headers;
 }
 
-export async function createServerClient(args: SupabaseServerArgs) {
+export function createServerClient(args: SupabaseServerArgs) {
   const supabaseResponse = NextResponse.next({
     request: args.request,
   });
