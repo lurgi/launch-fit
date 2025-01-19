@@ -12,7 +12,7 @@ export default function SignupPage() {
 
         <p className="text-gray-600 text-sm mt-4">
           <span className="mr-1">이미 계정이 있으신가요?</span>
-          <Link href="/signin" className="text-blue-600 hover:underline">
+          <Link href="/auth/signin" className="text-blue-600 hover:underline">
             로그인
           </Link>
         </p>

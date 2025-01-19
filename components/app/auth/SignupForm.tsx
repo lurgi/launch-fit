@@ -53,12 +53,12 @@ export default function SignupForm() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { trigger, isMutating } = useSWRMutation("/api/signup", signupFetcher);
+  const { trigger, isMutating } = useSWRMutation("/api/authsignup", signupFetcher);
 
   const handleSignup = async (data: SignupFormValues) => {
     try {
       await trigger(data);
-      router.push("/signin");
+      router.push("/auth/signin");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const { dismiss } = toast({
