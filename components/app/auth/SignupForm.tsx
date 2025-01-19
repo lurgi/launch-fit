@@ -53,7 +53,7 @@ export default function SignupForm() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { trigger, isMutating } = useSWRMutation("/api/authsignup", signupFetcher);
+  const { trigger, isMutating } = useSWRMutation("/api/auth/signup", signupFetcher);
 
   const handleSignup = async (data: SignupFormValues) => {
     try {
