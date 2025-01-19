@@ -8,6 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import useSWRMutation from "swr/mutation";
+import { CustomError } from "@/lib/CustomError";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().min(1, "이메일을 입력하세요.").email("올바른 이메일 형식을 입력하세요."),
@@ -16,16 +20,43 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
+const loginFetcher = async (url: string, { arg }: { arg: LoginFormValues }) => {
+  const response = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  });
+
+  if (!response.ok && response.status !== 302) {
+    const res = await response.json();
+    throw new CustomError(res);
+  }
+
+  return response.json();
+};
+
 export default function LoginForm() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
 
+  const { trigger, isMutating } = useSWRMutation("/api/auth/signin", loginFetcher);
   const [showPassword, setShowPassword] = useState(false);
-
-  const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
+  const { toast } = useToast();
+  const router = useRouter();
+  const onSubmit = async (data: LoginFormValues) => {
+    try {
+      const url = await trigger(data);
+      router.push(url);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const { dismiss } = toast({
+        title: error.message,
+        description: error.errors,
+        variant: "destructive",
+      });
+      setTimeout(dismiss, 3000);
+    }
   };
 
   return (
@@ -71,7 +102,11 @@ export default function LoginForm() {
         />
 
         {/* 로그인 버튼 */}
-        <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
+        <Button
+          type="submit"
+          disabled={isMutating}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+        >
           로그인
         </Button>
       </form>
