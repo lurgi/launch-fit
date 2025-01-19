@@ -36,7 +36,6 @@ export async function POST(request: NextRequest) {
       },
       {
         status: 400,
-        headers: { "Content-Type": "application/json" },
       }
     );
   }
@@ -56,7 +55,6 @@ export async function POST(request: NextRequest) {
       },
       {
         status: 400,
-        headers: { "Content-Type": "application/json" },
       }
     );
   }
@@ -68,7 +66,6 @@ export async function POST(request: NextRequest) {
     },
     {
       status: 200,
-      headers: { "Content-Type": "application/json" },
     }
   );
 }
