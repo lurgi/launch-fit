@@ -40,7 +40,7 @@ export default function IdeaForm({ onSubmit, defaultValues }: IdeaFormProps) {
     Error,
     string,
     IdeaFormValues
-  >("/api/idea/create", fetcher);
+  >("/api/idea", fetcher);
 
   const { toast } = useToast();
 
