@@ -7,9 +7,7 @@ export default function LauncherSectionHeader({ title, description }: { title?: 
   const [isShowSkeleton, setIsShowSkeleton] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsShowSkeleton(false);
-    }, 1000);
+    setIsShowSkeleton(false);
   }, []);
 
   return (
