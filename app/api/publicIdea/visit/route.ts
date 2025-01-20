@@ -33,11 +33,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ isError: true, message: "너무 많은 요청이 감지되었습니다." }, { status: 429 });
   }
 
-  const visitCookie = request.cookies.get("visited_today");
+  const cookieKey = `visited_today-${ideaId}`;
+
+  const visitCookie = request.cookies.get(cookieKey);
   const response = NextResponse.json({ message: "success" });
 
   if (!visitCookie) {
-    response.cookies.set("visited_today", "true", {
+    response.cookies.set(cookieKey, "true", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24,
