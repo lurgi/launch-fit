@@ -9,10 +9,10 @@ import useSWRMutation from "swr/mutation";
 import { useToast } from "@/hooks/use-toast";
 
 const ideaSchema = z.object({
-  title: z.string().min(3, "아이디어 제목을 입력하세요."),
-  description: z.string().min(5, "아이디어 설명을 입력하세요."),
-  emailText: z.string().min(5, "이메일 등록 문구를 입력하세요."),
-  website: z.string().url("올바른 URL을 입력하세요."),
+  title: z.string().min(3, "아이디어 제목을 입력하세요.").max(50, "아이디어 제목은 50자 이하로 입력하세요."),
+  description: z.string().min(5, "아이디어 설명을 입력하세요.").max(500, "아이디어 설명은 500자 이하로 입력하세요."),
+  emailText: z.string().min(5, "이메일 등록 문구를 입력하세요.").max(50, "이메일 등록 문구는 50자 이하로 입력하세요."),
+  website: z.string().url("올바른 URL을 입력하세요.").max(200, "소개 홈페이지는 200자 이하로 입력하세요."),
 });
 
 type IdeaFormValues = z.infer<typeof ideaSchema>;

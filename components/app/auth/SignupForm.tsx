@@ -30,10 +30,15 @@ const signupFetcher = async (url: string, { arg }: { arg: SignupFormValues }) =>
 
 const signupSchema = z
   .object({
-    email: z.string().min(1, "이메일을 입력하세요.").email("올바른 이메일 형식을 입력하세요."),
+    email: z
+      .string()
+      .min(1, "이메일을 입력하세요.")
+      .email("올바른 이메일 형식을 입력하세요.")
+      .max(50, "이메일은 50자 이하로 입력하세요."),
     password: z
       .string()
       .min(6, "비밀번호는 최소 6자 이상이어야 합니다.")
+      .max(50, "비밀번호는 50자 이하로 입력하세요.")
       .regex(/[A-Za-z]/, "비밀번호에는 최소 한 개의 영문자가 포함되어야 합니다.")
       .regex(/[0-9]/, "비밀번호에는 최소 한 개의 숫자가 포함되어야 합니다."),
     passwordConfirm: z.string().min(6, "비밀번호는 최소 6자 이상이어야 합니다."),

@@ -10,7 +10,10 @@ import useSWRMutation from "swr/mutation";
 import { z } from "zod";
 
 const schema = z.object({
-  email: z.string().email({ message: "올바른 이메일 주소를 입력해주세요." }),
+  email: z
+    .string()
+    .email({ message: "올바른 이메일 주소를 입력해주세요." })
+    .max(50, "이메일은 50자 이하로 입력하세요."),
   agreeTerms: z.boolean().refine((val) => val === true, {
     message: "개인정보처리방침에 동의해야 합니다.",
   }),
