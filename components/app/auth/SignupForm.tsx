@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import useSWRMutation from "swr/mutation";
 import { CustomError } from "@/lib/CustomError";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const signupFetcher = async (url: string, { arg }: { arg: SignupFormValues }) => {
   const response = await fetch(url, {
@@ -36,6 +37,9 @@ const signupSchema = z
       .regex(/[A-Za-z]/, "비밀번호에는 최소 한 개의 영문자가 포함되어야 합니다.")
       .regex(/[0-9]/, "비밀번호에는 최소 한 개의 숫자가 포함되어야 합니다."),
     passwordConfirm: z.string().min(6, "비밀번호는 최소 6자 이상이어야 합니다."),
+    agreeTerms: z.boolean().refine((val) => val === true, {
+      message: "개인정보처리방침에 동의해야 합니다.",
+    }),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "비밀번호가 일치하지 않습니다.",
@@ -113,6 +117,22 @@ export default function SignupForm() {
               <FormControl>
                 <Input type="password" placeholder="비밀번호 확인" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="agreeTerms"
+          render={({ field }) => (
+            <FormItem className="flex flex-col items-start">
+              <div className="flex items-center space-x-3">
+                <FormControl>
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+                <FormLabel className="text-md font-semibold">이용약관에 동의합니다. (필수)</FormLabel>
+              </div>
               <FormMessage />
             </FormItem>
           )}
