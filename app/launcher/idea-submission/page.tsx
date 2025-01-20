@@ -3,12 +3,12 @@ import { useState } from "react";
 import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
 import { Button } from "@/components/ui/button";
 import IdeaForm from "@/components/app/launcher/IdeaForm";
-import { ArrowRightIcon, CheckIcon, CopyIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import CopyButton from "@/components/common/CopyButton";
 
 export default function IdeaSubmissionPage() {
   const [ideaId, setIdeaId] = useState<string | null>();
-  const [isCopied, setIsCopied] = useState(false);
 
   return (
     <>
@@ -29,19 +29,8 @@ export default function IdeaSubmissionPage() {
           </h2>
           <p className="mt-2 text-gray-600">링크를 복사하여 공유해보세요!</p>
           <div className="flex justify-center gap-4 text-xl">
-            <Button
-              className="mt-3 bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg"
-              onClick={() => {
-                navigator.clipboard.writeText(`${window.location.origin}/idea/${ideaId}`);
-                setIsCopied(true);
-                setTimeout(() => {
-                  setIsCopied(false);
-                }, 2000);
-              }}
-            >
-              {isCopied ? <CheckIcon className="w-6 h-6" /> : <CopyIcon className="w-6 h-6" />}
-              링크 복사
-            </Button>
+            <CopyButton copyText={`${window.location.origin}/idea/${ideaId}`} innerText="링크 복사" />
+
             <Link href={`/idea/${ideaId}`} target="_blank">
               <Button className="mt-3 bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg">
                 <ArrowRightIcon className="w-6 h-6" />
