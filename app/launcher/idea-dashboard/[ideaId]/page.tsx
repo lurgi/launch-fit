@@ -7,6 +7,8 @@ import useSWR from "swr";
 import { useParams } from "next/navigation";
 import StatsCard from "@/components/app/launcher/StatsCard";
 import EmailListTable from "@/components/app/launcher/EmailListTable";
+import { generateAndDownloadCSV } from "@/lib/utils";
+import { formatDate } from "date-fns";
 
 interface IdeaStats {
   id: string;
@@ -46,7 +48,15 @@ export default function IdeaDashboardPage() {
   const emails = data?.idea?.emails;
 
   const handleDownloadCSV = () => {
-    // TODO: 다운로드 기능 구현
+    if (emails) {
+      generateAndDownloadCSV(
+        [
+          ["이메일", "등록일"],
+          ...emails.map((emailRecord) => [emailRecord.email, formatDate(emailRecord.createdAt, "yyyy-MM-dd")]),
+        ],
+        `emails-${new Date().getTime()}`
+      );
+    }
   };
 
   return (
