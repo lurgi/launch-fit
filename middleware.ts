@@ -1,12 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createServerClient } from "./lib/supabase/serverClient";
+import { getUserInServer } from "./lib/supabaseUtils";
 
 async function redirectToDashboardIfLoggedIn(request: NextRequest) {
-  const supabase = createServerClient({ request });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserInServer(request);
 
   if (user) {
     const url = request.nextUrl.clone();
@@ -18,11 +14,7 @@ async function redirectToDashboardIfLoggedIn(request: NextRequest) {
 }
 
 async function redirectToSigninIfNotLoggedIn(request: NextRequest) {
-  const supabase = createServerClient({ request });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserInServer(request);
 
   if (!user) {
     const url = request.nextUrl.clone();
