@@ -4,14 +4,14 @@ export default function TermsOfService() {
   return (
     <>
       <Head>
-        <title>이용약관 | Prelaunch.kr</title>
+        <title>이용약관 | launchfit.kr</title>
       </Head>
       <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-900 px-6">
         <div className="w-full max-w-2xl bg-zinc-100 p-6 rounded-lg shadow-md text-left">
           <h1 className="text-3xl font-bold mb-4">📜 이용약관</h1>
           <p className="mb-4">
-            본 서비스 Prelaunch.kr(이하 ‘서비스’)를 이용해 주셔서 감사합니다. 본 약관은 서비스 이용과 관련하여 사용자와
-            Prelaunch.kr 간의 권리 및 의무를 명시합니다.
+            본 서비스 launchfit.kr(이하 ‘서비스’)를 이용해 주셔서 감사합니다. 본 약관은 서비스 이용과 관련하여 사용자와
+            launchfit.kr 간의 권리 및 의무를 명시합니다.
           </p>
           <h2 className="text-2xl font-semibold mt-6">1. 서비스 제공 및 변경</h2>
           <p className="mb-4">

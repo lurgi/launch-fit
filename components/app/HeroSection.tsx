@@ -10,7 +10,7 @@ export default function HeroSection() {
       </p>
       <div>
         <p className="mt-4 text-md text-gray-600">
-          <strong>Prelaunch</strong>를 통해 아이디어의 시장 반응을 빠르게 확인하세요!
+          <strong>Launch Fit</strong>를 통해 아이디어의 시장 반응을 빠르게 확인하세요!
         </p>
         <p className="text-md text-gray-500">
           간단하게 <strong>페이지</strong>를 만들고, <strong>관심 있는 사용자</strong>들의 이메일을 확보할 수 있어요.
