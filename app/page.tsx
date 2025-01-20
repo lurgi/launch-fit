@@ -5,13 +5,14 @@ import HomeFooter from "@/components/app/HomeFooter";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen min-w-screen flex flex-col items-center justify-center relative">
-      <HeroSection />
+    <div className="flex flex-col min-h-screen min-w-screen relative pt-8 md:pt-16 pb-32">
+      <main className="flex-1 flex flex-col items-center justify-center relative">
+        <HeroSection />
 
-      <IntroductionSection />
+        <IntroductionSection />
 
-      {/* <ExampleSection /> */}
-
+        {/* <ExampleSection /> */}
+      </main>
       <HomeFooter />
     </div>
   );

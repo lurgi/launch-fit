@@ -45,32 +45,33 @@ export default function IdeaPage() {
   const copyText = `${process.env.NEXT_PUBLIC_DOMAIN_URL}/idea/${ideaId}`;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
-      {!registered ? (
-        <>
-          <IdeaInfo title={title} description={description} />
-          <IntroduceLink website={website} />
-          <EmailRegistrationForm ideaId={ideaId} emailText={emailText} onAfterSubmit={() => setRegistered(true)} />
+    <div className="flex flex-col min-h-screen min-w-screen relative pt-8 md:pt-16 pb-32">
+      <main className="flex-1 flex flex-col items-center justify-center relative mb-12 px-6 md:px-12">
+        {!registered ? (
+          <>
+            <IdeaInfo title={title} description={description} />
+            <IntroduceLink website={website} />
+            <EmailRegistrationForm ideaId={ideaId} emailText={emailText} onAfterSubmit={() => setRegistered(true)} />
 
-          {/* 신뢰도 강화 UI */}
-          {/* <div className="w-full max-w-2xl text-center mt-4">
+            {/* 신뢰도 강화 UI */}
+            {/* <div className="w-full max-w-2xl text-center mt-4">
             <p className="text-gray-600">
               현재까지 <span className="font-bold text-blue-600">{totalRegistrations}</span>명이 관심을 보였습니다!
             </p>
           </div> */}
-        </>
-      ) : (
-        <div className="w-full max-w-2xl text-center my-8 opacity-100 transition-opacity duration-500 ease-in-out">
-          <h2 className="text-4xl font-bold text-green-600">🎉 관심 등록 완료!</h2>
-          <p className="mt-2 text-xl text-gray-600">등록해 주셔서 감사합니다! 🙌</p>
+          </>
+        ) : (
+          <div className="w-full max-w-2xl text-center my-8 opacity-100 transition-opacity duration-500 ease-in-out">
+            <h2 className="text-4xl font-bold text-green-600">🎉 관심 등록 완료!</h2>
+            <p className="mt-2 text-xl text-gray-600">등록해 주셔서 감사합니다! 🙌</p>
+          </div>
+        )}
+
+        <div className="flex flex-col items-center justify-center mt-4">
+          <span className="text-lg text-gray-600">링크를 복사하여 아이디어를 공유해보세요!</span>
+          <CopyButton copyText={copyText} innerText="링크 복사" />
         </div>
-      )}
-
-      <div className="flex flex-col items-center justify-center mt-4">
-        <span className="text-lg text-gray-600">링크를 복사하여 아이디어를 공유해보세요!</span>
-        <CopyButton copyText={copyText} innerText="링크 복사" />
-      </div>
-
+      </main>
       <HomeFooter />
     </div>
   );
