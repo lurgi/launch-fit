@@ -43,7 +43,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ isError: true, message: "아이디어를 찾을 수 없습니다." }, { status: 404 });
     }
 
-    console.log(idea);
     if (idea.emails.length > 0) {
       return NextResponse.json({ isError: true, message: "이미 이메일을 등록하셨습니다." }, { status: 400 });
     }
