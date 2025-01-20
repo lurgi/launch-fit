@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { handlePrismaError } from "@/lib/prismaUtils";
+import { getUserInServer } from "@/lib/supabaseUtils";
 import { NextRequest, NextResponse } from "next/server";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 
@@ -12,7 +13,18 @@ const rateLimiter = new RateLimiterMemory({
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") || "unknown";
   const ideaId = request.nextUrl.searchParams.get("ideaId");
+  const user = await getUserInServer(request);
+
   if (!ideaId) return NextResponse.json({ error: "아이디어 ID를 찾을 수 없습니다." }, { status: 400 });
+
+  if (user) {
+    const idea = await prisma.idea.findUnique({ where: { id: ideaId } });
+    if (idea?.userId === user.id)
+      return NextResponse.json(
+        { isError: true, message: "자신의 아이디어의 방문자수는 카운트되지 않습니다." },
+        { status: 400 }
+      );
+  }
 
   try {
     await rateLimiter.consume(ip);
