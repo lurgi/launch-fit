@@ -4,8 +4,10 @@ import Link from "next/link";
 export default function HeroSection() {
   return (
     <main className="w-full text-center px-6 py-12">
-      <h1 className="text-4xl font-bold sm:text-5xl">🤔 당신의 아이디어, 시장이 원할까요?</h1>
-      <p className="mt-4 text-2xl font-semibold text-blue-600">
+      <h1 className="w-full text-4xl font-bold sm:text-5xl" style={{ wordBreak: "keep-all" }}>
+        🤔 당신의 아이디어, 시장이 원할까요?
+      </h1>
+      <p className="mt-4 text-2xl font-semibold text-blue-600" style={{ wordBreak: "keep-all" }}>
         <strong>아이디어, 시작 전에 검증하세요!</strong>
       </p>
       <div>
