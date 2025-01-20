@@ -42,9 +42,12 @@ const signupSchema = z
       .regex(/[A-Za-z]/, "비밀번호에는 최소 한 개의 영문자가 포함되어야 합니다.")
       .regex(/[0-9]/, "비밀번호에는 최소 한 개의 숫자가 포함되어야 합니다."),
     passwordConfirm: z.string().min(6, "비밀번호는 최소 6자 이상이어야 합니다."),
-    agreeTerms: z.boolean().refine((val) => val === true, {
-      message: "개인정보처리방침에 동의해야 합니다.",
-    }),
+    agreeTerms: z
+      .boolean()
+      .optional()
+      .refine((val) => val === true, {
+        message: "개인정보처리방침에 동의해야 합니다.",
+      }),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "비밀번호가 일치하지 않습니다.",
