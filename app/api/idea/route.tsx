@@ -29,3 +29,30 @@ export async function POST(request: NextRequest) {
     return handlePrismaError(error);
   }
 }
+
+export async function GET(request: NextRequest) {
+  const ideaId = request.nextUrl.searchParams.get("ideaId");
+  if (!ideaId) {
+    return NextResponse.json({ isError: true, message: "아이디어 ID를 찾을 수 없습니다." }, { status: 400 });
+  }
+
+  const user = await getUserInServer(request);
+  if (!user) {
+    return NextResponse.json({ isError: true, message: "사용자를 찾을 수 없습니다." }, { status: 401 });
+  }
+
+  try {
+    const idea = await prisma.idea.findUnique({
+      where: { id: ideaId, userId: user.id },
+      include: { stats: { orderBy: { date: "desc" } }, emails: { orderBy: { createdAt: "desc" } } },
+    });
+
+    if (!idea) {
+      return NextResponse.json({ isError: true, message: "아이디어를 찾을 수 없습니다." }, { status: 404 });
+    }
+
+    return NextResponse.json({ idea });
+  } catch (error) {
+    return handlePrismaError(error);
+  }
+}
