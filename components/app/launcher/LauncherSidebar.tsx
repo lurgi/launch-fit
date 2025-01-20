@@ -51,15 +51,15 @@ function SidebarContent({ pathname }: { pathname: string }) {
 
   return (
     <>
-      <h2 className="text-lg font-semibold">Prelaunch Admin</h2>
+      <h2 className="text-lg font-semibold">🚀 Launch Fit</h2>
       <Separator className="my-4" />
       <nav className="flex flex-col gap-2">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <Button
-              variant={pathname === item.href ? "default" : "ghost"}
+              variant={pathname.startsWith(item.href) ? "default" : "ghost"}
               className={cn("w-full justify-start space-x-3 hover:bg-blue-100", {
-                "bg-blue-600 text-white hover:bg-blue-600": pathname === item.href,
+                "bg-blue-600 text-white hover:bg-blue-600": pathname.startsWith(item.href),
               })}
             >
               {item.icon}
