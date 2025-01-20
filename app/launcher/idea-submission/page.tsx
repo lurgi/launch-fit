@@ -19,6 +19,7 @@ export default function IdeaSubmissionPage() {
 
       {!ideaId ? (
         <IdeaForm
+          method="create"
           onSubmit={({ ideaId }) => setIdeaId(ideaId)}
           defaultValues={{ title: "", description: "", emailText: "", website: "" }}
         />
@@ -29,7 +30,7 @@ export default function IdeaSubmissionPage() {
           </h2>
           <p className="mt-2 text-gray-600">링크를 복사하여 공유해보세요!</p>
           <div className="flex justify-center gap-4 text-xl">
-            <CopyButton copyText={`${window.location.origin}/idea/${ideaId}`} innerText="링크 복사" />
+            <CopyButton copyText={`${process.env.NEXT_PUBLIC_DOMAIN_URL}/idea/${ideaId}`} innerText="링크 복사" />
 
             <Link href={`/idea/${ideaId}`} target="_blank">
               <Button className="mt-3 bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg">

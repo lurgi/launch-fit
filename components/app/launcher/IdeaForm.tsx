@@ -17,19 +17,22 @@ const ideaSchema = z.object({
 
 type IdeaFormValues = z.infer<typeof ideaSchema>;
 
-async function fetcher(url: string, { arg }: { arg: IdeaFormValues }) {
+type Method = "create" | "update";
+
+async function fetcher(url: string, { arg }: { arg: IdeaFormValues }, method: Method) {
   return fetch(url, {
-    method: "POST",
+    method: method === "create" ? "POST" : "PUT",
     body: JSON.stringify(arg),
   }).then((res) => res.json());
 }
 
 interface IdeaFormProps {
+  method: Method;
   onSubmit?: (data: { ideaId: string }) => void;
   defaultValues: IdeaFormValues;
 }
 
-export default function IdeaForm({ onSubmit, defaultValues }: IdeaFormProps) {
+export default function IdeaForm({ method, onSubmit, defaultValues }: IdeaFormProps) {
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
     defaultValues,
@@ -40,7 +43,7 @@ export default function IdeaForm({ onSubmit, defaultValues }: IdeaFormProps) {
     Error,
     string,
     IdeaFormValues
-  >("/api/idea", fetcher);
+  >("/api/idea", (url, { arg }) => fetcher(url, { arg }, method));
 
   const { toast } = useToast();
 
