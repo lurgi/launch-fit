@@ -19,7 +19,7 @@ type IdeaFormValues = z.infer<typeof ideaSchema>;
 
 type Method = "create" | "update";
 
-async function fetcher(url: string, { arg }: { arg: IdeaFormValues }, method: Method) {
+async function fetcher(url: string, { arg }: { arg: IdeaFormValues & { ideaId?: string } }, method: Method) {
   return fetch(url, {
     method: method === "create" ? "POST" : "PUT",
     body: JSON.stringify(arg),
@@ -30,9 +30,10 @@ interface IdeaFormProps {
   method: Method;
   onSubmit?: (data: { ideaId: string }) => void;
   defaultValues: IdeaFormValues;
+  ideaId?: string;
 }
 
-export default function IdeaForm({ method, onSubmit, defaultValues }: IdeaFormProps) {
+export default function IdeaForm({ method, onSubmit, defaultValues, ideaId: _ideaId }: IdeaFormProps) {
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
     defaultValues,
@@ -42,23 +43,33 @@ export default function IdeaForm({ method, onSubmit, defaultValues }: IdeaFormPr
     { isError: boolean; message: string; ideaId?: string },
     Error,
     string,
-    IdeaFormValues
+    IdeaFormValues & { ideaId?: string }
   >("/api/idea", (url, { arg }) => fetcher(url, { arg }, method));
 
   const { toast } = useToast();
 
   const handleSubmit = async (values: z.infer<typeof ideaSchema>) => {
-    const { isError, message, ideaId } = await trigger(values);
+    const { isError, message, ideaId } = await trigger({ ...values, ideaId: _ideaId });
     if (isError) {
-      toast({
-        title: "아이디어 생성 실패",
+      const { dismiss } = toast({
+        title: "아이디어 생성/수정에 실패했습니다.",
         description: message,
         variant: "destructive",
       });
+      setTimeout(() => {
+        dismiss();
+      }, 3000);
+      return;
     } else {
       onSubmit?.({ ideaId: ideaId! });
     }
   };
+
+  const isValid =
+    form.getValues("title") !== defaultValues.title ||
+    form.getValues("description") !== defaultValues.description ||
+    form.getValues("emailText") !== defaultValues.emailText ||
+    form.getValues("website") !== defaultValues.website;
 
   return (
     <Form {...form}>
@@ -126,8 +137,8 @@ export default function IdeaForm({ method, onSubmit, defaultValues }: IdeaFormPr
         {/* 제출 버튼 */}
         <Button
           type="submit"
-          disabled={isMutating}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md "
+          disabled={isMutating || !isValid}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md"
         >
           {method === "create" ? "관심 등록 페이지 만들기" : "아이디어 수정하기"}
         </Button>

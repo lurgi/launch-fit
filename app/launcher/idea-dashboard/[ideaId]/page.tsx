@@ -3,12 +3,13 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
 import IdeaForm from "@/components/app/launcher/IdeaForm";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useParams } from "next/navigation";
 import StatsCard from "@/components/app/launcher/StatsCard";
 import EmailListTable from "@/components/app/launcher/EmailListTable";
 import { generateAndDownloadCSV } from "@/lib/utils";
 import { formatDate } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 interface IdeaStats {
   id: string;
@@ -42,9 +43,8 @@ const fetcher = async (url: string) => {
 };
 
 export default function IdeaDashboardPage() {
-  const { ideaId } = useParams();
+  const { ideaId } = useParams() as { ideaId: string };
   const { data } = useSWR<{ idea: Idea }>(`/api/idea?ideaId=${ideaId}`, fetcher);
-
   const emails = data?.idea?.emails;
 
   const handleDownloadCSV = () => {
@@ -57,6 +57,18 @@ export default function IdeaDashboardPage() {
         `emails-${new Date().getTime()}`
       );
     }
+  };
+
+  const { toast } = useToast();
+  const handleSubmit = () => {
+    const { dismiss } = toast({
+      title: "아이디어가 수정되었습니다.",
+      description: "아이디어가 수정되었습니다.",
+    });
+    setTimeout(() => {
+      dismiss();
+    }, 3000);
+    mutate(`/api/idea?ideaId=${ideaId}`);
   };
 
   return (
@@ -84,7 +96,9 @@ export default function IdeaDashboardPage() {
         </TabsContent>
 
         <TabsContent value="edit">
-          {data?.idea && <IdeaForm method="update" onSubmit={() => {}} defaultValues={data?.idea} />}
+          {data?.idea && (
+            <IdeaForm method="update" onSubmit={handleSubmit} defaultValues={data?.idea} ideaId={ideaId} />
+          )}
         </TabsContent>
       </Tabs>
     </>

@@ -56,3 +56,34 @@ export async function GET(request: NextRequest) {
     return handlePrismaError(error);
   }
 }
+
+export async function PUT(request: NextRequest) {
+  const { title, description, emailText, website, ideaId } = await request.json();
+
+  if (!ideaId) {
+    return NextResponse.json({ isError: true, message: "아이디어 ID를 찾을 수 없습니다." }, { status: 400 });
+  }
+
+  const user = await getUserInServer(request);
+
+  if (!user) {
+    return NextResponse.json({ isError: true, message: "사용자를 찾을 수 없습니다." }, { status: 401 });
+  }
+  try {
+    const idea = await prisma.idea.update({
+      where: { id: ideaId, userId: user.id },
+      data: {
+        title,
+        description,
+        emailText,
+        website,
+      },
+    });
+    return NextResponse.json(
+      { isError: false, message: "아이디어가 수정되었습니다.", ideaId: idea.id },
+      { status: 200 }
+    );
+  } catch (error) {
+    return handlePrismaError(error);
+  }
+}
