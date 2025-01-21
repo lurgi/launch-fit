@@ -52,7 +52,7 @@ export default function EmailRegistrationForm({
     },
   });
   const { toast } = useToast();
-  const { trigger } = useSWRMutation(`/api/publicIdea?ideaId=${ideaId}`, postFetcher);
+  const { trigger, isMutating: isRegistering } = useSWRMutation(`/api/publicIdea?ideaId=${ideaId}`, postFetcher);
 
   const handleSubmit = async (data: z.infer<typeof schema>) => {
     const result = await trigger({ email: data.email });
@@ -109,9 +109,9 @@ export default function EmailRegistrationForm({
 
         <Button
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md"
-          disabled={isMutating}
+          disabled={isMutating || isRegistering}
         >
-          {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : "관심 등록하기"}
+          {isMutating || isRegistering ? <Loader2 className="w-4 h-4 animate-spin" /> : "관심 등록하기"}
         </Button>
       </form>
     </Form>

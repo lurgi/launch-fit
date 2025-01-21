@@ -51,7 +51,7 @@ export default function IdeaDashboardPage() {
     if (emails) {
       generateAndDownloadCSV(
         [
-          ["이메일", "등록일"],
+          ["email", "createdAt"],
           ...emails.map((emailRecord) => [emailRecord.email, formatDate(emailRecord.createdAt, "yyyy-MM-dd")]),
         ],
         `emails-${new Date().getTime()}`
