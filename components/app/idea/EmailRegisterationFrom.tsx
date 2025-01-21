@@ -1,3 +1,4 @@
+"use cleint";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -78,9 +79,7 @@ export default function EmailRegistrationForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-lg font-semibold">이메일을 등록하세요!</FormLabel>
-              <FormDescription className={`text-sm text-gray-600 h-5 ${emailText || "animate-pulse"}`}>
-                {emailText && emailText}
-              </FormDescription>
+              <FormDescription className={`text-sm text-gray-600 min-h-5`}>{emailText && emailText}</FormDescription>
               <FormControl>
                 <Input type="email" {...field} placeholder="예: example@email.com" />
               </FormControl>
