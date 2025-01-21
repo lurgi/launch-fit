@@ -34,7 +34,7 @@ export default function IdeaPage() {
   const { data, isLoading } = useSWR<{ idea: Idea }>(`/api/publicIdea?ideaId=${ideaId}`, getFetcher);
   const router = useRouter();
   const [registered, setRegistered] = useState(false);
-  const { trigger } = useSWRMutation(`/api/publicIdea/visit?ideaId=${ideaId}`, postFetcher);
+  const { trigger, isMutating } = useSWRMutation(`/api/publicIdea/visit?ideaId=${ideaId}`, postFetcher);
 
   useEffect(() => {
     trigger();
@@ -51,7 +51,12 @@ export default function IdeaPage() {
           <>
             <IdeaInfo title={title} description={description} />
             <IntroduceLink website={website} />
-            <EmailRegistrationForm ideaId={ideaId} emailText={emailText} onAfterSubmit={() => setRegistered(true)} />
+            <EmailRegistrationForm
+              ideaId={ideaId}
+              emailText={emailText}
+              onAfterSubmit={() => setRegistered(true)}
+              isMutating={isMutating}
+            />
 
             {/* 신뢰도 강화 UI */}
             {/* <div className="w-full max-w-2xl text-center mt-4">

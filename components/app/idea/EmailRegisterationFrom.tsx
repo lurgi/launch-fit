@@ -5,6 +5,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 
 import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
@@ -37,10 +38,12 @@ export default function EmailRegistrationForm({
   ideaId,
   emailText,
   onAfterSubmit,
+  isMutating,
 }: {
   ideaId: string;
   emailText?: string;
   onAfterSubmit: () => void;
+  isMutating: boolean;
 }) {
   const form = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -104,8 +107,11 @@ export default function EmailRegistrationForm({
           )}
         />
 
-        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md">
-          관심 등록하기
+        <Button
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md"
+          disabled={isMutating}
+        >
+          {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : "관심 등록하기"}
         </Button>
       </form>
     </Form>
