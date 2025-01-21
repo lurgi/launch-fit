@@ -129,7 +129,7 @@ export default function IdeaForm({ method, onSubmit, defaultValues }: IdeaFormPr
           disabled={isMutating}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg shadow-md "
         >
-          관심 등록 페이지 만들기
+          {method === "create" ? "관심 등록 페이지 만들기" : "아이디어 수정하기"}
         </Button>
       </form>
     </Form>
