@@ -12,6 +12,7 @@ import useSWRMutation from "swr/mutation";
 import { CustomError } from "@/lib/CustomError";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const loginSchema = z.object({
   email: z
@@ -111,7 +112,7 @@ export default function LoginForm() {
           disabled={isMutating}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
         >
-          로그인
+          {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : "로그인"}
         </Button>
       </form>
     </Form>
