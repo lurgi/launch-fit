@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     try {
       await prisma.ideaStats.upsert({
-        where: { ideaId, date: today },
+        where: { ideaId_date: { ideaId, date: today } },
         update: { visits: { increment: 1 } },
         create: { ideaId, visits: 1, emailCount: 0, date: today },
       });

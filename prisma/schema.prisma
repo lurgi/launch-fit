@@ -33,9 +33,11 @@ model IdeaStats {
   ideaId    String
   idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
 
-  date      DateTime @unique
+  date      DateTime 
   visits    Int      @default(0) 
   emailCount Int     @default(0) 
+
+  @@unique([ideaId, date])
 }
 
 model EmailRecord {
@@ -43,6 +45,8 @@ model EmailRecord {
   ideaId    String
   idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
 
-  email     String   @unique
+  email     String   
   createdAt DateTime @default(now()) 
+
+  @@unique([ideaId, email])
 }
