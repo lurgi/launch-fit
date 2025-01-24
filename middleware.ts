@@ -1,5 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserInServer } from "./lib/supabaseUtils";
+import { createMiddleware } from "next-middleware-enhancer";
+
+export const { middleware, config } = createMiddleware([
+  { matcher: "/launcher/:path*", handler: redirectToSigninIfNotLoggedIn },
+  { matcher: "/auth/:path*", handler: redirectToDashboardIfLoggedIn },
+]);
 
 async function redirectToDashboardIfLoggedIn(request: NextRequest) {
   const user = await getUserInServer(request);
@@ -24,17 +30,3 @@ async function redirectToSigninIfNotLoggedIn(request: NextRequest) {
 
   return NextResponse.next();
 }
-
-export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/launcher")) {
-    return redirectToSigninIfNotLoggedIn(request);
-  }
-  if (request.nextUrl.pathname.startsWith("/auth")) {
-    return redirectToDashboardIfLoggedIn(request);
-  }
-  return NextResponse.next();
-}
-
-export const config = {
-  matcher: ["/launcher/:path*", "/auth/:path*"],
-};
