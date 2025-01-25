@@ -2,16 +2,8 @@ import prisma from "@/lib/prisma";
 import { handlePrismaError } from "@/lib/prismaUtils";
 import { getUserInServer } from "@/lib/supabaseUtils";
 import { NextRequest, NextResponse } from "next/server";
-import { RateLimiterMemory } from "rate-limiter-flexible";
-
-// 🔹 1분 동안 최대 10개의 요청만 허용 DDos공격 방지
-const rateLimiter = new RateLimiterMemory({
-  points: 10,
-  duration: 60,
-});
 
 export async function POST(request: NextRequest) {
-  const ip = request.headers.get("x-forwarded-for") || "unknown";
   const ideaId = request.nextUrl.searchParams.get("ideaId");
   const user = await getUserInServer(request);
 
@@ -24,13 +16,6 @@ export async function POST(request: NextRequest) {
         { isError: true, message: "자신의 아이디어의 방문자수는 카운트되지 않습니다." },
         { status: 400 }
       );
-  }
-
-  try {
-    await rateLimiter.consume(ip);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    return NextResponse.json({ isError: true, message: "너무 많은 요청이 감지되었습니다." }, { status: 429 });
   }
 
   const cookieKey = `visited_today-${ideaId}`;
