@@ -1,11 +1,9 @@
 "use client";
 import { useState } from "react";
 import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
-import { Button } from "@/components/ui/button";
 import IdeaForm from "@/components/app/launcher/IdeaForm";
-import { ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
 import CopyButton from "@/components/common/CopyButton";
+import LinkToIdeaButton from "@/components/app/launcher/LinkToIdeaButton";
 
 export default function IdeaSubmissionPage() {
   const [ideaId, setIdeaId] = useState<string | null>();
@@ -29,15 +27,9 @@ export default function IdeaSubmissionPage() {
             <span className="text-4xl">🎉</span> 관심 등록 페이지가 생성되었습니다!
           </h2>
           <p className="mt-2 text-gray-600">링크를 복사하여 공유해보세요!</p>
-          <div className="flex justify-center gap-4 text-xl">
+          <div className="flex justify-center gap-4 text-xl mt-4">
             <CopyButton copyText={`${process.env.NEXT_PUBLIC_DOMAIN_URL}/idea/${ideaId}`} innerText="링크 복사" />
-
-            <Link href={`/idea/${ideaId}`} target="_blank">
-              <Button className="mt-3 bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg">
-                <ArrowRightIcon className="w-6 h-6" />
-                바로 가기
-              </Button>
-            </Link>
+            <LinkToIdeaButton ideaId={ideaId} />
           </div>
         </div>
       )}

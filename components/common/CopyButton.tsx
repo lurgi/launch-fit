@@ -8,7 +8,7 @@ export default function CopyButton({ copyText, innerText }: { copyText: string; 
 
   return (
     <Button
-      className="mt-3 bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg"
+      className="bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg"
       onClick={() => {
         navigator.clipboard.writeText(copyText);
         setIsCopied(true);

@@ -72,7 +72,7 @@ export default function IdeaPage() {
           </div>
         )}
 
-        <div className="flex flex-col items-center justify-center mt-4">
+        <div className="flex flex-col items-center justify-center mt-4 gap-4">
           <span className="text-lg text-gray-600">링크를 복사하여 아이디어를 공유해보세요!</span>
           <CopyButton copyText={copyText} innerText="링크 복사" />
         </div>

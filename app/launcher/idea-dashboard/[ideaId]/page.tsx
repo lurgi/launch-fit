@@ -1,28 +1,16 @@
 "use client";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import LauncherSectionHeader from "@/components/app/launcher/LauncherSectionHeader";
 import IdeaForm from "@/components/app/launcher/IdeaForm";
 import useSWR, { mutate } from "swr";
 import { useParams } from "next/navigation";
 import StatsCard from "@/components/app/launcher/StatsCard";
 import EmailListTable from "@/components/app/launcher/EmailListTable";
-import { generateAndDownloadCSV } from "@/lib/utils";
-import { formatDate } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-
-interface IdeaStats {
-  id: string;
-  date: Date;
-  visits: number;
-  emailCount: number;
-}
-
-interface EmailRecord {
-  id: string;
-  email: string;
-  createdAt: Date;
-}
+import CSVDownloadButton from "@/components/app/launcher/CSVDownloadButton";
+import { EmailRecord, IdeaStats } from "@prisma/client";
+import LinkToIdeaButton from "@/components/app/launcher/LinkToIdeaButton";
+import CopyButton from "@/components/common/CopyButton";
 
 interface Idea {
   id: string;
@@ -46,18 +34,6 @@ export default function IdeaDashboardPage() {
   const { ideaId } = useParams() as { ideaId: string };
   const { data } = useSWR<{ idea: Idea }>(`/api/idea?ideaId=${ideaId}`, fetcher);
   const emails = data?.idea?.emails;
-
-  const handleDownloadCSV = () => {
-    if (emails) {
-      generateAndDownloadCSV(
-        [
-          ["email", "createdAt"],
-          ...emails.map((emailRecord) => [emailRecord.email, formatDate(emailRecord.createdAt, "yyyy-MM-dd")]),
-        ],
-        `emails-${new Date().getTime()}`
-      );
-    }
-  };
 
   const { toast } = useToast();
   const handleSubmit = () => {
@@ -85,13 +61,10 @@ export default function IdeaDashboardPage() {
           <StatsCard stats={data?.idea?.stats} />
           <EmailListTable emails={emails} />
 
-          <div className="w-full text-center mt-6">
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg"
-              onClick={handleDownloadCSV}
-            >
-              📥 CSV 다운로드
-            </Button>
+          <div className="w-full flex justify-center gap-4 mt-6">
+            <CopyButton copyText={`${process.env.NEXT_PUBLIC_APP_URL}/idea/${ideaId}`} innerText="링크 복사" />
+            <LinkToIdeaButton ideaId={ideaId} />
+            <CSVDownloadButton emails={emails} />
           </div>
         </TabsContent>
 
