@@ -96,7 +96,7 @@ export default function EmailRegistrationForm({
           name="agreeTerms"
           render={({ field }) => (
             <FormItem className="flex flex-col items-start">
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 mb-[52px]">
                 <FormControl>
                   <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
