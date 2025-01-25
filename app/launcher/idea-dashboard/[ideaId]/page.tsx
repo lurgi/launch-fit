@@ -52,7 +52,7 @@ export default function IdeaDashboardPage() {
     <>
       <LauncherSectionHeader title={data?.idea?.title} description={data?.idea?.description} />
 
-      <Tabs defaultValue="overview" className="w-full h-4/5">
+      <Tabs defaultValue="overview" className="w-full h-4/5 mb-6">
         <TabsList>
           <TabsTrigger value="overview">📊 개요</TabsTrigger>
           <TabsTrigger value="feedback">💬 피드백</TabsTrigger>
@@ -63,7 +63,7 @@ export default function IdeaDashboardPage() {
           <StatsCard stats={data?.idea?.stats} />
           <EmailListTable emails={data?.idea?.emails} />
 
-          <div className="w-full flex justify-center gap-4 mt-6">
+          <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
             <CopyButton copyText={`${process.env.NEXT_PUBLIC_APP_URL}/idea/${ideaId}`} innerText="링크 복사" />
             <LinkToIdeaButton ideaId={ideaId} />
             <CSVDownloadButton emails={data?.idea?.emails} />

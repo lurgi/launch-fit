@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -9,10 +8,10 @@ interface LinkToIdeaButtonProps {
 export default function LinkToIdeaButton({ ideaId }: LinkToIdeaButtonProps) {
   return (
     <Link href={`/idea/${ideaId}`} target="_blank">
-      <Button className="bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-lg">
+      <div className="flex items-center justify-center gap-2 h-9 bg-amber-500 hover:bg-amber-600 text-white rounded-lg">
         <ArrowRightIcon className="w-6 h-6" />
         바로 가기
-      </Button>
+      </div>
     </Link>
   );
 }
