@@ -31,7 +31,13 @@ const postFetcher = async (url: string) => {
 
 export default function IdeaPage() {
   const { ideaId } = useParams() as { ideaId: string };
-  const { data, isLoading } = useSWR<{ idea: Idea }>(`/api/publicIdea?ideaId=${ideaId}`, getFetcher);
+  const { data } = useSWR<{ idea: Idea; isError: boolean }>(`/api/publicIdea?ideaId=${ideaId}`, getFetcher, {
+    onSuccess: (data) => {
+      if (data.isError) {
+        router.push("/404");
+      }
+    },
+  });
   const router = useRouter();
   const [registered, setRegistered] = useState(false);
   const { trigger, isMutating } = useSWRMutation(`/api/publicIdea/visit?ideaId=${ideaId}`, postFetcher);
@@ -40,7 +46,6 @@ export default function IdeaPage() {
     trigger();
   }, [trigger]);
 
-  if (!data && !isLoading) return router.push("/404");
   const { title, description, emailText, website } = data?.idea || {};
   const copyText = `${process.env.NEXT_PUBLIC_DOMAIN_URL}/idea/${ideaId}`;
 

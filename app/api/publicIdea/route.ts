@@ -11,6 +11,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const idea = await prisma.idea.findUnique({ where: { id: ideaId } });
+    if (!idea) return NextResponse.json({ isError: true, message: "아이디어를 찾을 수 없습니다." }, { status: 404 });
+
     return NextResponse.json({ isError: false, idea });
   } catch (error) {
     return handlePrismaError(error);
