@@ -26,6 +26,7 @@ model Idea {
   
   stats      IdeaStats[]         
   emails     EmailRecord[]       
+  feedbacks  FeedbackRecord[]  
 }
 
 model IdeaStats {
@@ -49,4 +50,15 @@ model EmailRecord {
   createdAt DateTime @default(now()) 
 
   @@unique([ideaId, email])
+}
+
+model FeedbackRecord {
+  id        String   @id @default(uuid())
+  ideaId    String
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  feedback  String   
+  createdAt DateTime @default(now()) 
+
+  @@unique([ideaId, feedback])
 }
