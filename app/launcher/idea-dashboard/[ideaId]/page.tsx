@@ -8,9 +8,10 @@ import StatsCard from "@/components/app/launcher/StatsCard";
 import EmailListTable from "@/components/app/launcher/EmailListTable";
 import { useToast } from "@/hooks/use-toast";
 import CSVDownloadButton from "@/components/app/launcher/CSVDownloadButton";
-import { EmailRecord, IdeaStats } from "@prisma/client";
+import { EmailRecord, FeedbackRecord, IdeaStats } from "@prisma/client";
 import LinkToIdeaButton from "@/components/app/launcher/LinkToIdeaButton";
 import CopyButton from "@/components/common/CopyButton";
+import FeedbackListTable from "@/components/app/launcher/FeedbackListTable";
 
 interface Idea {
   id: string;
@@ -21,6 +22,7 @@ interface Idea {
 
   stats: IdeaStats[];
   emails: EmailRecord[];
+  feedbacks: FeedbackRecord[];
 
   createdAt: Date;
 }
@@ -33,7 +35,6 @@ const fetcher = async (url: string) => {
 export default function IdeaDashboardPage() {
   const { ideaId } = useParams() as { ideaId: string };
   const { data } = useSWR<{ idea: Idea }>(`/api/idea?ideaId=${ideaId}`, fetcher);
-  const emails = data?.idea?.emails;
 
   const { toast } = useToast();
   const handleSubmit = () => {
@@ -54,18 +55,23 @@ export default function IdeaDashboardPage() {
       <Tabs defaultValue="overview" className="w-full h-4/5">
         <TabsList>
           <TabsTrigger value="overview">📊 개요</TabsTrigger>
+          <TabsTrigger value="feedback">💬 피드백</TabsTrigger>
           <TabsTrigger value="edit">✏️ 수정</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
           <StatsCard stats={data?.idea?.stats} />
-          <EmailListTable emails={emails} />
+          <EmailListTable emails={data?.idea?.emails} />
 
           <div className="w-full flex justify-center gap-4 mt-6">
             <CopyButton copyText={`${process.env.NEXT_PUBLIC_APP_URL}/idea/${ideaId}`} innerText="링크 복사" />
             <LinkToIdeaButton ideaId={ideaId} />
-            <CSVDownloadButton emails={emails} />
+            <CSVDownloadButton emails={data?.idea?.emails} />
           </div>
+        </TabsContent>
+
+        <TabsContent value="feedback">
+          <FeedbackListTable feedbacks={data?.idea?.feedbacks} />
         </TabsContent>
 
         <TabsContent value="edit">

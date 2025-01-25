@@ -44,7 +44,11 @@ export async function GET(request: NextRequest) {
   try {
     const idea = await prisma.idea.findUnique({
       where: { id: ideaId, userId: user.id },
-      include: { stats: { orderBy: { date: "desc" } }, emails: { orderBy: { createdAt: "desc" } } },
+      include: {
+        stats: { orderBy: { date: "desc" } },
+        emails: { orderBy: { createdAt: "desc" } },
+        feedbacks: { orderBy: { createdAt: "desc" } },
+      },
     });
 
     if (!idea) {
