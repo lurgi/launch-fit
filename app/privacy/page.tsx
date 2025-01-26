@@ -4,12 +4,12 @@ export default function PrivacyPolicy() {
   return (
     <>
       <Head>
-        <title>개인정보처리방침 | launchfit.kr</title>
+        <title>개인정보처리방침 | launch-fit.vercel.app</title>
       </Head>
       <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-900 px-6">
         <div className="w-full max-w-2xl bg-zinc-100 p-6 rounded-lg shadow-md text-left">
           <h1 className="text-3xl font-bold mb-4">🔐 개인정보처리방침</h1>
-          <p className="mb-4">launchfit.kr(이하 ‘서비스’)는 사용자의 개인정보 보호를 위해 최선을 다합니다.</p>
+          <p className="mb-4">launch-fit.vercel.app(이하 ‘서비스’)는 사용자의 개인정보 보호를 위해 최선을 다합니다.</p>
           <h2 className="text-2xl font-semibold mt-6">1. 수집하는 개인정보 항목</h2>
           <p className="mb-4">- 이메일 주소: 서비스 업데이트 및 알림 제공을 위해 사용됩니다.</p>
           <h2 className="text-2xl font-semibold mt-6">2. 개인정보의 이용 목적</h2>
