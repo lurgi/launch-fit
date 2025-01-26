@@ -6,19 +6,12 @@ import IdeaInfo from "@/components/app/idea/IdeaInfo";
 import IntroduceLink from "@/components/app/idea/IntroduceLink";
 import CopyButton from "@/components/common/CopyButton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Idea } from "@prisma/client";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-
-interface Idea {
-  id: string;
-  title: string;
-  description: string;
-  emailText: string;
-  website: string;
-}
 
 const getFetcher = async (url: string) => {
   const response = await fetch(url);
@@ -54,7 +47,7 @@ export default function IdeaPage() {
     trigger();
   }, [trigger]);
 
-  const { title, description, emailText, website } = data?.idea || {};
+  const { title, description, website } = data?.idea || {};
   const copyText = `${process.env.NEXT_PUBLIC_DOMAIN_URL}/idea/${ideaId}`;
 
   return (
@@ -72,7 +65,7 @@ export default function IdeaPage() {
               <TabsContent value="email">
                 <EmailRegistrationForm
                   ideaId={ideaId}
-                  emailText={emailText}
+                  title={title}
                   onAfterSubmit={() => setEmailRegistered(true)}
                   isMutating={isMutating}
                 />

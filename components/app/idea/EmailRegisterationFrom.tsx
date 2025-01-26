@@ -36,12 +36,12 @@ const postFetcher = async (url: string, { arg }: { arg: { email: string } }) => 
 
 export default function EmailRegistrationForm({
   ideaId,
-  emailText,
+  title,
   onAfterSubmit,
   isMutating,
 }: {
   ideaId: string;
-  emailText?: string;
+  title?: string;
   onAfterSubmit: () => void;
   isMutating: boolean;
 }) {
@@ -82,7 +82,9 @@ export default function EmailRegistrationForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-lg font-semibold">이메일을 등록하세요!</FormLabel>
-              <FormDescription className={`text-sm text-gray-600 min-h-5`}>{emailText && emailText}</FormDescription>
+              <FormDescription className={`text-sm text-gray-600 min-h-5`}>
+                {title && `${title}에 관심이 있으시면 이메일을 등록해주세요!`}
+              </FormDescription>
               <FormControl>
                 <Input type="email" {...field} placeholder="예: example@email.com" />
               </FormControl>

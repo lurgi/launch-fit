@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 const ideaSchema = z.object({
   title: z.string().min(3, "아이디어 제목을 입력하세요.").max(50, "아이디어 제목은 50자 이하로 입력하세요."),
   description: z.string().min(5, "아이디어 설명을 입력하세요.").max(500, "아이디어 설명은 500자 이하로 입력하세요."),
-  emailText: z.string().min(5, "이메일 등록 문구를 입력하세요.").max(50, "이메일 등록 문구는 50자 이하로 입력하세요."),
   website: z.string().url("올바른 URL을 입력하세요.").max(200, "소개 홈페이지는 200자 이하로 입력하세요."),
 });
 
@@ -68,7 +67,6 @@ export default function IdeaForm({ method, onSubmit, defaultValues, ideaId: _ide
   const isValid =
     form.getValues("title") !== defaultValues.title ||
     form.getValues("description") !== defaultValues.description ||
-    form.getValues("emailText") !== defaultValues.emailText ||
     form.getValues("website") !== defaultValues.website;
 
   return (
@@ -98,21 +96,6 @@ export default function IdeaForm({ method, onSubmit, defaultValues, ideaId: _ide
               <FormLabel className="text-lg font-semibold">📝 아이디어 설명</FormLabel>
               <FormControl>
                 <Textarea {...field} placeholder="간단한 설명을 입력하세요" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* 이메일 등록 문구 */}
-        <FormField
-          control={form.control}
-          name="emailText"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg font-semibold">📩 이메일 등록 문구 설정</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="예: 관심이 있으시면 이메일을 입력하세요!" />
               </FormControl>
               <FormMessage />
             </FormItem>

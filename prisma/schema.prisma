@@ -21,7 +21,6 @@ model Idea {
   
   title      String
   description String
-  emailText   String
   website     String
   
   stats      IdeaStats[]         

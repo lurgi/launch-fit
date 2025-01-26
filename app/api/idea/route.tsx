@@ -4,7 +4,7 @@ import { getUserInServer } from "@/lib/supabaseUtils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { title, description, emailText, website } = await request.json();
+  const { title, description, website } = await request.json();
 
   const user = await getUserInServer(request);
 
@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
         userId: user.id,
         title,
         description,
-        emailText,
         website,
       },
     });
@@ -62,7 +61,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const { title, description, emailText, website, ideaId } = await request.json();
+  const { title, description, website, ideaId } = await request.json();
 
   if (!ideaId) {
     return NextResponse.json({ isError: true, message: "아이디어 ID를 찾을 수 없습니다." }, { status: 400 });
@@ -79,7 +78,6 @@ export async function PUT(request: NextRequest) {
       data: {
         title,
         description,
-        emailText,
         website,
       },
     });

@@ -19,7 +19,7 @@ export default function IdeaSubmissionPage() {
         <IdeaForm
           method="create"
           onSubmit={({ ideaId }) => setIdeaId(ideaId)}
-          defaultValues={{ title: "", description: "", emailText: "", website: "" }}
+          defaultValues={{ title: "", description: "", website: "" }}
         />
       ) : (
         <div className="w-full max-w-2xl text-center mt-6">
