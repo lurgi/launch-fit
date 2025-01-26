@@ -5,7 +5,7 @@ const getFetcher = async (url: string) => {
 
 export async function generateMetadata({ params }: { params: Promise<{ ideaId: string }> }) {
   const { ideaId } = await params;
-  const idea = await getFetcher(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/publicIdea?ideaId=${ideaId}`);
+  const { idea } = await getFetcher(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/publicIdea?ideaId=${ideaId}`);
 
   return {
     title: idea.title,
