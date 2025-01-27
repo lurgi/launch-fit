@@ -6,17 +6,11 @@ import IdeaInfo from "@/components/app/idea/IdeaInfo";
 import IntroduceLink from "@/components/app/idea/IntroduceLink";
 import CopyButton from "@/components/common/CopyButton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Idea } from "@prisma/client";
 import { TabsContent } from "@radix-ui/react-tabs";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
-
-const getFetcher = async (url: string) => {
-  const response = await fetch(url);
-  return response.json();
-};
 
 const postFetcher = async (url: string) => {
   const response = await fetch(url, {
@@ -30,14 +24,10 @@ export default function IdeaPage() {
   const feedbackParam = useSearchParams().get("feedback");
   const defaultTabValue = feedbackParam ? "feedback" : "email";
 
-  const { data } = useSWR<{ idea: Idea; isError: boolean }>(`/api/publicIdea?ideaId=${ideaId}`, getFetcher, {
-    onSuccess: (data) => {
-      if (data.isError) {
-        router.push("/404");
-      }
-    },
-  });
-  const router = useRouter();
+  const {
+    fallback: { idea },
+  } = useSWRConfig();
+
   const [emailRegistered, setEmailRegistered] = useState(false);
   const [feedbackRegistered, setFeedbackRegistered] = useState(false);
 
@@ -47,7 +37,7 @@ export default function IdeaPage() {
     trigger();
   }, [trigger]);
 
-  const { title, description, website } = data?.idea || {};
+  const { title, description, website } = idea || {};
   const copyText = `${process.env.NEXT_PUBLIC_DOMAIN_URL}/idea/${ideaId}`;
 
   return (
