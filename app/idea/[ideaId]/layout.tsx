@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ ideaId: s
 }
 
 interface IdeaLayoutProps extends PropsWithChildren {
-  params: { ideaId: string } | Promise<{ ideaId: string }>;
+  params: Promise<{ ideaId: string }>;
 }
 
 export default async function IdeaLayout({ params, children }: IdeaLayoutProps) {
